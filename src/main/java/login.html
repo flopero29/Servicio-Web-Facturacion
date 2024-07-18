@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Selección de Servicios</title>
+</head>
+<body>
+    <h1>Selección de Servicios</h1>
+    <p>Bienvenido, <span id="username"></span>!</p>
+    
+    <h2>Servicios Disponibles</h2>
+    <ul>
+        <li>
+            Recarga MiBus Panamá ($1)
+            <button onclick="simularPago()">Pagar</button>
+        </li>
+    </ul>
+    
+    <script>
+        // Obtener el usuario que inició sesión desde la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const usuario = urlParams.get('usuario');
+        document.getElementById('username').textContent = usuario;
+        
+        function simularPago() {
+            fetch('/pago/simular', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    usuario: usuario
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Pago realizado exitosamente');
+                } else {
+                    alert('Error al realizar el pago');
+                }
+            })
+            .catch(error => {
+                alert('Error al enviar la solicitud de pago');
+            });
+        }
+    </script>
+</body>
+</html>
